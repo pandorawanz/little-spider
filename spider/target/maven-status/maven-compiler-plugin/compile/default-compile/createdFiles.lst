@@ -1,0 +1,14 @@
+com\wanz\spider\view\ListViewer.class
+com\wanz\spider\model\NewsWithRelated.class
+com\wanz\spider\model\SearchSate.class
+com\wanz\spider\model\News.class
+com\wanz\Main.class
+com\wanz\spider\model\NewsFactory.class
+com\wanz\spider\model\TextNewsReader.class
+com\wanz\spider\model\UrlNews.class
+com\wanz\MultiThreadMain.class
+com\wanz\spider\activity\SpiderThread.class
+com\wanz\spider\model\JsonNewsReader.class
+com\wanz\spider\model\NewsReader.class
+com\wanz\spider\model\Viewable.class
+com\wanz\spider\model\UrlNewsReader.class
