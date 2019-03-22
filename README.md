@@ -2,9 +2,13 @@
 本爬虫项目主要用于读取网页新闻队列，目标网页为[https://readhub.cn/topics](https://readhub.cn/topics)
 
 本爬虫代码主要有以下特点：
+
 1.将对象模型逐层封装，便于扩展功能
+
 2.用Jsoup解析网页html，读取相关信息
+
 3.采用了广度优先搜索方式，将网页相关链接，存入队列，并顺沿队列读取信息
+
 4.尝试采用多线程实现了代码功能，将线程之间的共存状态封装成类实例
 
 ### 封装
@@ -56,24 +60,26 @@ for (Element element : relatedElements) {
 ### 广度优先搜索
 将上层网页获取的链接全部读取，用队列存储，再向下层读取，用HashSet记录避免了重复读取
 ```
-        while (!newsQueue.isEmpty() && count <= maximumURL) {
-            NewsWithRelated current = newsQueue.poll();     // 取出 NewsWithRelated 对象并开始爬虫
-            results.add(current);
-            count += 1;
-            // 遍历哈希表中的网页相关链接
-            for (Map.Entry<String, String> entry : current.getRelateds().entrySet()) {
-                String url = entry.getValue();
-                NewsWithRelated next = UrlNewsReader.read(url);
-                // 避免重复出现已经爬过的url
-                if (!visited.contains(url)) {
-                    newsQueue.add(next);
-                    visited.add(url);
-                }
-            }
+while (!newsQueue.isEmpty() && count <= maximumURL) {
+    NewsWithRelated current = newsQueue.poll();     // 取出 NewsWithRelated 对象并开始爬虫
+    results.add(current);
+    count += 1;
+    // 遍历哈希表中的网页相关链接
+    for (Map.Entry<String, String> entry : current.getRelateds().entrySet()) {
+        String url = entry.getValue();
+        NewsWithRelated next = UrlNewsReader.read(url);
+        // 避免重复出现已经爬过的url
+        if (!visited.contains(url)) {
+            newsQueue.add(next);
+            visited.add(url);
         }
+    }
+}
 ```
 
 ### 多线程实现
 1.定义并创建SearchState对象来存储和处理线程之间的状态
+
 2.分层读取，用join()方法控制主线程的运行状态
+
 3.判定是否已经读取过相同信息的方法，用synchronized修饰符确保其只能同时被一个线程调用，防止线程交叉导致的异常出现
